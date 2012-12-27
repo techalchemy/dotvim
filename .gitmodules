@@ -4,3 +4,6 @@
 [submodule "bundle/gundo"]
 	path = bundle/gundo
 	url = https://github.com/sjl/gundo.vim.git
+[submodule "bundle/easybuffer"]
+	path = bundle/easybuffer
+	url = https://github.com/troydm/easybuffer.vim.git
