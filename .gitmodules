@@ -1,0 +1,6 @@
+[submodule "bundle/puppet"]
+	path = bundle/puppet
+	url = https://github.com/rodjek/vim-puppet.git
+[submodule "bundle/easybuffer"]
+	path = bundle/easybuffer
+	url = https://github.com/troydm/easybuffer.vim.git
