@@ -64,3 +64,6 @@
 [submodule "bundle/vim-django"]
 	path = bundle/vim-django
 	url = https://github.com/cwood/vim-django.git
+[submodule "bundle/badwolf"]
+	path = bundle/badwolf
+	url = https://github.com/sjl/badwolf.git
