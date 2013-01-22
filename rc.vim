@@ -137,11 +137,11 @@
     set background=dark
     " colorscheme molokai
     " colorscheme Tomorrow-Night
-    " colorscheme jellybeans
+    colorscheme jellybeans
     " colorscheme hickop
     " colorscheme oh-la-la
     " colorscheme tropikos
-    colorscheme gummybears
+    " colorscheme gummybears
 
     " Edit
     set backspace=indent,eol,start  " backspace deletes indent, newline, text
@@ -249,11 +249,11 @@
 
         while len(l:parts) && !filereadable(l:template)
             let template = l:tpl_dir . join(l:parts, '/')
-            let l:parts = l:parts[1:]
+            let parts = l:parts[1:]
         endwhile
 
         if !filereadable(l:template)
-            let l:template = l:tpl_dir . &ft
+            let template = l:tpl_dir . &ft
         endif
 
         if filereadable(l:template)
@@ -501,6 +501,8 @@
         call rc#Map_ex_cmd("<A-DOWN>", ":tablast")
         " Go to next tab
         call rc#Map_ex_cmd("<A-RIGHT>", ":tabnext")
+        " Go to previous tab
+        call rc#Map_ex_cmd("<A-LEFT>", ":tabprevious")
 
         " Tab Navigation
         map <A-1> 1gt
@@ -545,6 +547,9 @@
         cnoremap <C-N> <Down>
         cnoremap <C-P> <Up>
 
+        " Use w!! to write as sudo
+        cmap w!! w !sudo tee % >/dev/null
+
     " }}}
 
     " Visual Mode {{{
@@ -561,7 +566,7 @@
 
     if has("gui_running")
         set guioptions=agimP
-        set guifont=Monospace\ 10
+        " set guifont=Monospace\ 10
     endif
 
 " }}}
