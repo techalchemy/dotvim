@@ -357,6 +357,7 @@
         \'\.svn$',
         \'\.tags$'
     \]
+    let NERDTreeShowHidden=1
 
     " Pymode
     let python_highlight_all = 1
@@ -407,6 +408,7 @@
     menu G.Move :Gmove<CR>
     menu G.Log :Glog<CR>
     menu G.Blame :Gblame<CR>
+    " 
 
 
     " VimWiki
