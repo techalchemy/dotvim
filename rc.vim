@@ -150,7 +150,7 @@
     set mouse=a                     " activate mouse for gui interaction
 
     set confirm
-    set numberwidth=2               " Line numbers no more than 2 wide
+    " set numberwidth=2               " Line numbers no more than 2 wide
     set fo-=t                       " Don't auto-wrap while typing
 
     " Open help in vsplit rather than regular split
