@@ -568,7 +568,7 @@
 
     if has("gui_running")
         set guioptions=agimP
-        " set guifont=Monospace\ 10
+        set guifont=Source\ Code\ Pro\ for\ Powerline\ Medium\ 10
     endif
 
 " }}}
