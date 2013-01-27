@@ -292,7 +292,7 @@
             au BufWinEnter * call rc#restore_cursor()
 
             " Beautify JS + HTML + CSS
-            au FileType javascript noremap <buffer> <c-f> :call JSBeautify()<cr>
+            au FileType javascript noremap <buffer> <c-f> :call JsBeautify()<cr>
             au FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
             au FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
