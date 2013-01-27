@@ -55,7 +55,7 @@
     set ruler                   " Always show cursor position
     set colorcolumn=81          " Show vertical line at column 81 (dont pass)
     set cursorline              " Hightlight current line
-    " set nowrap
+    set nowrap
     " set lazyredraw
     " set tw=79                 " Document width
 
@@ -94,13 +94,17 @@
     set fileencodings=utf-8
     set termencoding=utf-8
 
+    set scrolloff=8             " Start scrolling 8 away from margins
+    set sidescrolloff=15
+    set sidescroll=1
+
     " Wildmenu
     set wildmenu                " Use wildmenu
     set wildcharm=<TAB>
     set wildignore=*.pyc        " Ignore .pyc files
     " set wildignore+=*_build/*
     " set wildignore+=*/coverage/*
-    " set wildmode=list:longest " Tab shows completion options like in shell
+    set wildmode=list:longest " Tab shows completion options like in shell
 
     " Undo
     if has('persistent_undo')
