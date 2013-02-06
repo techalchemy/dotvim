@@ -56,7 +56,7 @@
     set colorcolumn=81          " Show vertical line at column 81 (dont pass)
     set cursorline              " Hightlight current line
     set nowrap
-    set lazyredraw
+    "set lazyredraw
     " set tw=79                 " Document width
 
     " Tab options
@@ -122,7 +122,7 @@
     endif
 
     " X clipboard support
-    if has('unnamedplus') || has('unnamed')
+    if has('unnamedplus')
         set clipboard+=unnamed  " Enable x-clipboard
     endif
 
@@ -151,7 +151,7 @@
     " Edit
     set backspace=indent,eol,start  " backspace deletes indent, newline, text
     " set bs=2                        " make backspace act normal
-    set virtualedit=onemore             " virtualedit for all modes, block, insert, or onemore
+    "set virtualedit=onemore             " virtualedit for all modes, block, insert, or onemore
     set mouse=a                     " activate mouse for gui interaction
 
     set confirm
@@ -367,7 +367,7 @@
         \'\.svn$',
         \'\.tags$'
     \]
-    let NERDTreeShowHidden=1
+    let NERDTreeShowHidden=0
 
     " Pymode
     let python_highlight_all = 1
