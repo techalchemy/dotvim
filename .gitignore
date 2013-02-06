@@ -67,5 +67,6 @@ Session.vim
 *.pyc
 .venv
 /doc/tags
+docs/tags
 tags
 .ropeproject
