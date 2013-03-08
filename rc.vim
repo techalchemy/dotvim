@@ -74,7 +74,6 @@
     set ssop-=blank             " Don't save blank windows
     set ssop-=options           " don't save options
     set undolevels=700
-    set autoread
 
     " Search options
     set hlsearch                " hilight search results
@@ -116,7 +115,7 @@
     " Folding
     if has('folding')
         set foldmethod=marker   " Fold on marker
-        set foldlevel=0         " High default = folds are shown to start
+        set foldlevel=2         " High default = folds are shown to start
         set foldenable
         " set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
     endif
@@ -371,16 +370,16 @@
 
     " Pymode
     let python_highlight_all = 1
-    " let g:pymode_lint_hold = 0
-    " let g:pymode_syntax_builtin_objs = 0
+    let g:pymode_lint_hold = 0
+    let g:pymode_syntax_builtin_objs = 0
     " let g:pymode_syntax_builtin_funcs = 1
     " let g:pymode_rope_goto_def_newwin = "new"
     let g:pymode_syntax_print_as_function = 1
     "" Extras
-    let g:pymode_doc = 1
+    "let g:pymode_doc = 1
     " let g:pymode_run_key = '<leader>r'
     let g:pymode_rope_vim_completion = 1
-    " let g:pymode_rope_enable_autoimport = 1
+    let g:pymode_rope_enable_autoimport = 1
     let g:pymode_rope_auto_project = 1
     let g:pymode_rope_guess_project = 0
     let g:pymode_folding = 1
@@ -586,7 +585,7 @@
 
 " Local Settings
 if filereadable($HOME . "/.vim_local")
-    source $HOME/.vim_local
+    source $HOME/.vim_local.vim
 endif
 
 " Project Settings {{{
