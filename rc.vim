@@ -55,8 +55,8 @@
     set ruler                   " Always show cursor position
     set colorcolumn=81          " Show vertical line at column 81 (dont pass)
     set cursorline              " Hightlight current line
-    " set nowrap
-    " set lazyredraw
+    set nowrap
+    "set lazyredraw
     " set tw=79                 " Document width
 
     " Tab options
@@ -94,13 +94,17 @@
     set fileencodings=utf-8
     set termencoding=utf-8
 
+    set scrolloff=8             " Start scrolling 8 away from margins
+    set sidescrolloff=15
+    set sidescroll=1
+
     " Wildmenu
     set wildmenu                " Use wildmenu
     set wildcharm=<TAB>
     set wildignore=*.pyc        " Ignore .pyc files
     " set wildignore+=*_build/*
     " set wildignore+=*/coverage/*
-    " set wildmode=list:longest " Tab shows completion options like in shell
+    set wildmode=list:longest " Tab shows completion options like in shell
 
     " Undo
     if has('persistent_undo')
@@ -111,7 +115,7 @@
     " Folding
     if has('folding')
         set foldmethod=marker   " Fold on marker
-        set foldlevel=999       " High default = folds are shown to start
+        set foldlevel=2         " High default = folds are shown to start
         set foldenable
         " set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
     endif
@@ -146,7 +150,7 @@
     " Edit
     set backspace=indent,eol,start  " backspace deletes indent, newline, text
     " set bs=2                        " make backspace act normal
-    set virtualedit=all             " virtualedit for all modes
+    "set virtualedit=onemore             " virtualedit for all modes, block, insert, or onemore
     set mouse=a                     " activate mouse for gui interaction
 
     set confirm
@@ -287,6 +291,11 @@
             " Restore cursor position
             au BufWinEnter * call rc#restore_cursor()
 
+            " Beautify JS + HTML + CSS
+            au FileType javascript noremap <buffer> <c-f> :call JsBeautify()<cr>
+            au FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+            au FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
             " Autosave last session
             if has("mksession")
                 au VimLeavePre * :call rc#SessionSave('last')
@@ -357,18 +366,18 @@
         \'\.svn$',
         \'\.tags$'
     \]
-    let NERDTreeShowHidden=1
+    let NERDTreeShowHidden=0
 
     " Pymode
     let python_highlight_all = 1
     let g:pymode_lint_hold = 0
     let g:pymode_syntax_builtin_objs = 0
-    let g:pymode_syntax_builtin_funcs = 1
-    let g:pymode_rope_goto_def_newwin = "new"
+    " let g:pymode_syntax_builtin_funcs = 1
+    " let g:pymode_rope_goto_def_newwin = "new"
     let g:pymode_syntax_print_as_function = 1
     "" Extras
-    let g:pymode_doc = 1
-    let g:pymode_run_key = '<leader>r'
+    "let g:pymode_doc = 1
+    " let g:pymode_run_key = '<leader>r'
     let g:pymode_rope_vim_completion = 1
     let g:pymode_rope_enable_autoimport = 1
     let g:pymode_rope_auto_project = 1
@@ -431,6 +440,7 @@
         
         " Ctrl+V in insert mode calls ctrl+v in normal mode
         imap <C-V> <Esc><C-v>a
+        inoremap jj <Esc>
     " }}}
 
     " Normal Mode {{{
@@ -567,7 +577,7 @@
 " ============
 
     if has("gui_running")
-        set guioptions=agimP
+        " set guioptions=agimP
         set guifont=Source\ Code\ Pro\ for\ Powerline\ Medium\ 10
     endif
 
@@ -575,7 +585,7 @@
 
 " Local Settings
 if filereadable($HOME . "/.vim_local")
-    source $HOME/.vim_local
+    source $HOME/.vim_local.vim
 endif
 
 " Project Settings {{{
