@@ -19,10 +19,93 @@
             silent call mkdir(g:SESSION_DIR, "p")
         endif
 
-        " Load Pathogen
+	let iCanHazVundle=1
+        let vundle_readme=expand("~/.vim/bundle/vundle/README.md")
+        if !filereadable(vundle_readme) 
+        "if !isdirectory("~/.vim/bundle/vundle")
+            echo "Installing Vundle.."
+            echo ""
+            silent !mkdir -p ~/.vim/bundle
+            silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+            let iCanHazVundle=0
+        endif
+
+        " Load Vundle
         filetype off
-        call pathogen#infect()
-        call pathogen#helptags()
+	" Vundle requires posix compliance, ergo bash
+	set shell=bash
+	let $GIT_SSL_NO_VERIFY = 'true'
+	set rtp+=~/.vim/bundle/vundle/
+	call vundle#rc()
+	" Vundle manages itself, required!!!
+	Bundle 'gmarik/vundle'
+	" Bundle 'tpope-vim-fugitive'
+
+	" 
+	Bundle 'git://git.wincent.com/command-t.git'
+	Bundle 'sjl/gundo.vim'
+	" Bundle 'L9'
+
+	" Syntax highlighting for nginx config
+	Bundle 'mutewinter/nginx.vim'
+
+	" Fuzzy finder (files, mru cache, etc)
+	Bundle 'kien/ctrlp.vim'
+
+	" Javascript syntax highlighting
+	Bundle 'pangloss/vim-javascript'
+
+	" Jquery plugin
+	Bundle 'itspriddle/vim-jquery'
+
+	" Filesystem explorer
+	Bundle 'scrooloose/nerdtree'
+
+	" Snippet tools (all are required)
+	Bundle 'MarcWeber/vim-addon-mw-utils'
+	Bundle 'tomtom/tlib_vim'
+	Bundle 'garbas/vim-snipmate'
+	Bundle 'honza/vim-snippets'
+	Bundle 'scrooloose/syntastic'
+
+	" Git plugins
+	Bundle 'tpope/vim-git'
+	Bundle 'tpope/vim-fugitive'
+
+	Bundle 'ervandew/supertab'
+
+	" Various generic formatters for alignment and bracket matching
+	Bundle 'Townk/vim-autoclose'
+	" Bundle 'tsaleh/vim-align'
+	Bundle 'vim-scripts/Align'
+	Bundle 'tpope/vim-surround'
+	Bundle 'scrooloose/nerdcommenter'
+	Bundle 'michaeljsmith/vim-indent-object'
+	Bundle 'fholgado/minibufexpl.vim'
+	let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
+
+	" Tmux extensions
+	Bundle 'benmills/vimux'
+
+	" Language specific helpers
+	Bundle 'plasticboy/vim-markdown'
+	Bundle 'klen/python-mode'
+	Bundle 'swaroopch/vim-markdown-preview'
+	Bundle 'davidhalter/jedi-vim'
+
+	" Color schemes
+	Bundle 'nanotech/jellybeans.vim'
+	" Bundle 'acustodioo/vim-tmux'
+	Bundle 'Lokaltog/powerline', {'rtp':'/powerline/bindings/vim'}
+	Bundle 'chriskempson/vim-tomorrow-theme'
+	Bundle 'altercation/vim-colors-solarized'
+	Bundle 'jelera/vim-gummybears-colorscheme'
+	Bundle 'hickop/vim-hickop-colors'
+	Bundle 'sjl/badwolf'
+	Bundle 'tomasr/molokai'
+	Bundle 'zaiste/Atom'
+	Bundle 'w0ng/vim-hybrid'
+
 
         filetype plugin indent on
         syntax on
@@ -40,11 +123,14 @@
 
     " Display Options
     set title                   " show file name in window title
-    set visualbell              " Mute error bell
-    set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,eol:$,nbsp:~ 
+    set novisualbell              " Mute error bell
+    set noerrorbells
+    set listchars=tab:>\                            " > to highlight <tab>
+    " set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,eol:$,nbsp:~ 
+    set list
     set linebreak               " break lines by words
     set showcmd
-    set whichwrap=b,s,<,>,[,],l,h
+    " set whichwrap=b,s,<,>,[,],l,h
     set completeopt=menu,preview
     " set completeopt=menuone,longest,preview
     set omnifunc=pythoncomplete#Complete
@@ -94,17 +180,17 @@
     set fileencodings=utf-8
     set termencoding=utf-8
 
-    set scrolloff=8             " Start scrolling 8 away from margins
-    set sidescrolloff=15
+    set scrolloff=2             " Start scrolling 8 away from margins
+    set sidescrolloff=2
     set sidescroll=1
 
     " Wildmenu
     set wildmenu                " Use wildmenu
     set wildcharm=<TAB>
-    set wildignore=*.pyc        " Ignore .pyc files
+    set wildignore=.pyc,.back,.o,.obj,.pdf,.jpg,so " Ignore .pyc files
     " set wildignore+=*_build/*
     " set wildignore+=*/coverage/*
-    set wildmode=list:longest " Tab shows completion options like in shell
+    set wildmode=longest,list " Tab shows completion options like in shell
 
     " Undo
     if has('persistent_undo')
@@ -121,9 +207,10 @@
     endif
 
     " X clipboard support
-    if has('unnamedplus')
-        set clipboard+=unnamed  " Enable x-clipboard
-    endif
+    set clipboard+=unnamed
+    "if has('unnamedplus')
+    "    set clipboard+=unnamed  " Enable x-clipboard
+    "endif
 
     " Terminal
     if &term =~ "xterm" || &term =~ "screen"
@@ -378,14 +465,27 @@
     "" Extras
     "let g:pymode_doc = 1
     " let g:pymode_run_key = '<leader>r'
-    let g:pymode_rope_vim_completion = 1
-    let g:pymode_rope_enable_autoimport = 1
+    let g:pymode_rope_vim_completion = 0
+    let g:pymode_rope_enable_autoimport = 0
     let g:pymode_rope_auto_project = 1
     let g:pymode_rope_guess_project = 0
     let g:pymode_folding = 1
     let g:pymode_syntax_all = 1
     let g:pymode_motion = 1
     let g:pymode_virtualenv = 1
+    let g:syntastic_python_checkers = ['flake8', 'pylint']
+    let g:syntasic_check_on_open = 0
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_style_warning_symbol='☔'
+    let g:syntastic_style_error_symbol='⚑'
+    let g:syntastic_error_symbol='✗'
+    let g:syntastic_warning_symbol='⚠'
+    let g:syntastic_mode_map = { 'mode': 'active',
+                                    \ 'active_filetypes': [],
+                                    \ 'passive_filetypes': ['java'] }
+    let g:jedi#popup_on_dot = 0
+    let g:jedi#rename_command = "<S-F12>"
+    let g:jedi#goto_command = "<F12>"
     " let g:SuperTabDefaultCompletionType = "context"
 
 
@@ -393,7 +493,7 @@
     set laststatus=2
     
     " CTRLP
-    " let g:ctrlp_max_height = 30
+    let g:ctrlp_max_height = 30
 
     " Fugitive
     nnoremap <leader>gs :Gstatus<CR>
@@ -532,7 +632,10 @@
         nnoremap <silent> <leader>f :NERDTreeFind<CR>
         
         " Toggle Tagbar
-        call rc#Map_ex_cmd("<F3>", "TagbarToggle")
+        " call rc#Map_ex_cmd("<F3>", "TagbarToggle")
+
+	" Command T toggle
+	call rc#Map_ex_cmd("<F3>", "CommandT")
         call rc#Toggle_option("<F6>", "list")
         call rc#Toggle_option("<F7>", "wrap")
 
@@ -585,9 +688,12 @@
 
 " Local Settings
 if filereadable($HOME . "/.vim_local")
-    source $HOME/.vim_local.vim
+    source $HOME/.vim_local
 endif
 
+if filereadable($HOME . "/.vim_local.vim")
+    source $HOME/.vim_local.vim
+endif
 " Project Settings {{{
 " ================
 
