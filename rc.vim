@@ -82,6 +82,7 @@
 	Bundle 'scrooloose/nerdcommenter'
 	Bundle 'michaeljsmith/vim-indent-object'
 	Bundle 'fholgado/minibufexpl.vim'
+        Bundle 'myusuf3/numbers.vim'
 	let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
 
 	" Tmux extensions
