@@ -1,69 +1,6 @@
 let mapleader = ','
 
-" Functions {{{
-" =========
 
-    " Key bind helper
-    fun! rc#Map_ex_cmd(key, cmd) "{{{
-        execute "nmap ".a:key." " . ":".a:cmd."<CR>"
-        execute "cmap ".a:key." " . "<C-C>:".a:cmd."<CR>"
-        execute "imap ".a:key." " . "<C-O>:".a:cmd."<CR>"
-        execute "vmap ".a:key." " . "<Esc>:".a:cmd."<CR>gv"
-    endfun "}}}
-
-    " Options switching helper
-    fun! rc#Toggle_option(key, opt) "{{{
-        call rc#Map_ex_cmd(a:key, "set ".a:opt."! ".a:opt."?")
-    endfun "}}}
-
-    " Sessions
-    fun! rc#SessionRead(name) "{{{
-        let s:name = g:SESSION_DIR.'/'.a:name.'.session'
-        if getfsize(s:name) >= 0
-            echo "Reading " s:name
-            exe 'source '.s:name
-            exe 'silent! source '.getcwd().'/.vim/.vimrc'
-        else
-            echo 'Session not found: '.a:name
-        endif
-    endfun "}}}
-
-    fun! rc#SessionInput(type) "{{{
-        let s:name = input(a:type.' session name? ')
-        if a:type == 'Save'
-            call rc#SessionSave(s:name)
-        else
-            call rc#SessionRead(s:name)
-        endif
-    endfun "}}}
-
-    fun! rc#SessionSave(name) "{{{
-        let s:name = g:SESSION_DIR.'/'.a:name.'.session'
-        exe "mks! " s:name
-        echo "Session " a:name "saved"
-    endfun "}}}
-
-    " Recursive vimgrep
-    fun! rc#RGrep() "{{{ 
-        let pattern = input("Search for pattern: ", expand("<cword>"))
-        if pattern == ""
-            return
-        endif
-
-        let cwd = getcwd()
-        let startdir = input("Start searching from directory: ", cwd, "dir")
-        if startdir == ""
-            return
-        endif
-
-        let filepattern = input("Search in files matching pattern: ", "*.*") 
-        if filepattern == ""
-            return
-        endif
-
-        execute 'noautocmd vimgrep /'.pattern.'/gj '.startdir.'/**/'.filepattern | botright copen
-    endfun "}}} 
-" }}}
 
 " F key mappings {{{
 	nnoremap <silent> <F2> 	:set paste!<CR>

@@ -1,42 +1,6 @@
 " Autocommands {{{
 " =============
-    " Templates
-    fun! rc#load_template() "{{{
-        let tpl_dir = $HOME . "/.vim/templates/"
 
-        if exists("g:tpl_prefix")
-            let tpl_dir = l:tpl_dir . g:tpl_prefix . "/"
-        endif
-
-        let template = ''
-
-        let path = expand('%:p~:gs?\\?/?')
-        let path = strpart(l:path, len(fnamemodify(l:path, ':h:h:h')), len(l:path))
-        let parts = split(l:path, '/')
-
-        while len(l:parts) && !filereadable(l:template)
-            let template = l:tpl_dir . join(l:parts, '/')
-            let parts = l:parts[1:]
-        endwhile
-
-        if !filereadable(l:template)
-            let template = l:tpl_dir . &ft
-        endif
-
-        if filereadable(l:template)
-            exe "0r " . l:template
-        endif
-    endfun "}}}
-
-    " Restore cursor position
-    fun! rc#restore_cursor() "{{{
-        if line("'\"") <= line("$")
-            normal! g`"
-            " Or is it
-            " normal! g'"
-            return 1
-        endif
-    endfun "}}}
 
     if has("autocmd")
 

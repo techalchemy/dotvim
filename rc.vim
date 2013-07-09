@@ -99,7 +99,8 @@
 	" Color schemes
 	Bundle 'nanotech/jellybeans.vim'
 	" Bundle 'acustodioo/vim-tmux'
-	Bundle 'Lokaltog/powerline', {'rtp':'/powerline/bindings/vim'}
+	Bundle 'Lokaltog/powerline'
+    set rtp+='~/.vim/bundle/powerline/powerline/bindings/vim'
 	Bundle 'chriskempson/vim-tomorrow-theme'
 	Bundle 'altercation/vim-colors-solarized'
 	Bundle 'jelera/vim-gummybears-colorscheme'
@@ -117,6 +118,109 @@
 
 filetype plugin indent on
 syntax on
+
+    " Templates
+    fun! rc#load_template() "{{{
+        let tpl_dir = $HOME . "/.vim/templates/"
+
+        if exists("g:tpl_prefix")
+            let tpl_dir = l:tpl_dir . g:tpl_prefix . "/"
+        endif
+
+        let template = ''
+
+        let path = expand('%:p~:gs?\\?/?')
+        let path = strpart(l:path, len(fnamemodify(l:path, ':h:h:h')), len(l:path))
+        let parts = split(l:path, '/')
+
+        while len(l:parts) && !filereadable(l:template)
+            let template = l:tpl_dir . join(l:parts, '/')
+            let parts = l:parts[1:]
+        endwhile
+
+        if !filereadable(l:template)
+            let template = l:tpl_dir . &ft
+        endif
+
+        if filereadable(l:template)
+            exe "0r " . l:template
+        endif
+    endfun "}}}
+
+    " Restore cursor position
+    fun! rc#restore_cursor() "{{{
+        if line("'\"") <= line("$")
+            normal! g`"
+            " Or is it
+            " normal! g'"
+            return 1
+        endif
+    endfun "}}}
+
+    " Functions {{{
+" =========
+
+    " Key bind helper
+    fun! rc#Map_ex_cmd(key, cmd) "{{{
+        execute "nmap ".a:key." " . ":".a:cmd."<CR>"
+        execute "cmap ".a:key." " . "<C-C>:".a:cmd."<CR>"
+        execute "imap ".a:key." " . "<C-O>:".a:cmd."<CR>"
+        execute "vmap ".a:key." " . "<Esc>:".a:cmd."<CR>gv"
+    endfun "}}}
+
+    " Options switching helper
+    fun! rc#Toggle_option(key, opt) "{{{
+        call rc#Map_ex_cmd(a:key, "set ".a:opt."! ".a:opt."?")
+    endfun "}}}
+
+    " Sessions
+    fun! rc#SessionRead(name) "{{{
+        let s:name = g:SESSION_DIR.'/'.a:name.'.session'
+        if getfsize(s:name) >= 0
+            echo "Reading " s:name
+            exe 'source '.s:name
+            exe 'silent! source '.getcwd().'/.vim/.vimrc'
+        else
+            echo 'Session not found: '.a:name
+        endif
+    endfun "}}}
+
+    fun! rc#SessionInput(type) "{{{
+        let s:name = input(a:type.' session name? ')
+        if a:type == 'Save'
+            call rc#SessionSave(s:name)
+        else
+            call rc#SessionRead(s:name)
+        endif
+    endfun "}}}
+
+    fun! rc#SessionSave(name) "{{{
+        let s:name = g:SESSION_DIR.'/'.a:name.'.session'
+        exe "mks! " s:name
+        echo "Session " a:name "saved"
+    endfun "}}}
+
+    " Recursive vimgrep
+    fun! rc#RGrep() "{{{ 
+        let pattern = input("Search for pattern: ", expand("<cword>"))
+        if pattern == ""
+            return
+        endif
+
+        let cwd = getcwd()
+        let startdir = input("Start searching from directory: ", cwd, "dir")
+        if startdir == ""
+            return
+        endif
+
+        let filepattern = input("Search in files matching pattern: ", "*.*") 
+        if filepattern == ""
+            return
+        endif
+
+        execute 'noautocmd vimgrep /'.pattern.'/gj '.startdir.'/**/'.filepattern | botright copen
+    endfun "}}} 
+" }}}
 
 set nocompatible
 
