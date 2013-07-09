@@ -133,7 +133,7 @@ let mapleader = ','
 
 	" Delete all buffers
 	nnoremap <silent> <leader>da :exec "1," . bufnr('$') . "bd"<CR>	
-}}}
+" }}}
 
 " Tabbing {{{
 	" New Tab
