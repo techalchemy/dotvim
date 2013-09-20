@@ -110,6 +110,13 @@
 	Bundle 'zaiste/Atom'
 	Bundle 'w0ng/vim-hybrid'
 
+        " Ruby / Padrino plugins
+        Bundle 'tpope/vim-haml'
+        Bundle 'spllr/vim-padrino'
+        Bundle 'tpope/vim-rake'
+        Bundle 'vim-ruby/vim-ruby'
+        Bundle 'tpope/vim-endwise'
+        Bundle 'tpope/gem-ctags'
 
 
     endif
